@@ -120,8 +120,40 @@
                             <li><a href="servicesbycategory/18.html">Home Automation</a></li>
                         </ul>
                     </li>
-                    <li class="login-form"> <a href="index.php/register.html" title="Register">Register</a></li>
-                    <li class="login-form"> <a href="login.html" title="Login">Login</a></li>
+                    @if (Route::has('login'))
+                      @auth
+                        @if(Auth::user()->utype==='ADM')
+                        <li class="login-form"> <a href="#" title="Register">My Account(Admin)</a></li>
+
+                        <ul class="drop-down one-column hover-fade">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form'.submit();">Logout</a></li>
+                        </ul>
+
+                        @elseif(Auth::user()->utype === 'SVP')
+                        <li class="login-form"> <a href="#" title="Register">My Account(Service Provider)</a></li>
+
+                        <ul class="drop-down one-column hover-fade">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form'.submit();">Logout</a></li>
+                        </ul>
+                        @else
+                        <li class="login-form"> <a href="#" title="Register">My Account(Customer)</a></li>
+
+                        <ul class="drop-down one-column hover-fade">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form'.submit();">Logout</a></li>
+                        </ul>
+                        @endif
+                        <form action="{{route('logout')}}" method="POST" id="logout-form">
+                           @csrf
+                        </form>
+                      @else
+                        <li class="login-form"> <a href="{{route('register')}}" title="Register">Register</a></li>
+                        <li class="login-form"> <a href="{{route('login')}}"  title="Login">Login</a></li>
+                      @endif
+                    @endif
+
                     <li class="search-bar">
                     </li>
                 </ul>
